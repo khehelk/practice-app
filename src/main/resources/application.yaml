@@ -1,3 +1,28 @@
 spring:
   application:
     name: practice-app
+  datasource:
+    hikari:
+      auto-commit: false
+    postgres:
+      url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB_NAME}
+      username: ${POSTGRES_USERNAME}
+      password: ${POSTGRES_PASSWORD}
+      driver-class-name: org.postgresql.Driver
+    clickhouse:
+      url: jdbc:clickhouse://${CLICKHOUSE_HOST}:${CLICKHOUSE_PORT}/${CLICKHOUSE_DB_NAME}
+      username: ${CLICKHOUSE_USERNAME}
+      password: ${CLICKHOUSE_PASSWORD}
+      driver-class-name: com.clickhouse.jdbc.ClickHouseDriver
+  jooq:
+    sql-dialect: POSTGRES
+  liquibase:
+    enabled: true
+    change-log: classpath:db/master.yml
+    url: ${spring.datasource.postgres.url}
+    user: ${spring.datasource.postgres.username}
+    password: ${spring.datasource.postgres.password}
+
+logging:
+  level:
+    org.jooq: DEBUG
